@@ -1,5 +1,5 @@
 <?php
-namespace Plugin\Traits;
+namespace Gengsz\Plugins\Plugin\Traits;
 
 trait SplitTableResolver {
     protected static function resolveModel($uid) {
