@@ -1,5 +1,6 @@
 <?php
 namespace Gengsz\Plugins\Loader;
+
 /**
  * 高级插件别名加载器：Trait 预加载 + Class 懒加载
  */

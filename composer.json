@@ -8,6 +8,9 @@
       "Gengsz\\Plugins\\": "src/"
     }
   },
+  "files": [
+    "src/bootstrap.php"
+  ],
   "require": {
     "php": ">=7.4"
   }
