@@ -6,9 +6,9 @@ namespace Gengsz\Plugins\Loader;
  */
 class PluginAliasLoader
 {
-    protected static string $baseDir = __DIR__ . '/Plugin';
+    protected static string $baseDir = __DIR__ . '/Loader';
     #protected static string $cacheFile = __DIR__ . '/../runtime/plugin_alias_map.php';
-    protected static string $cacheFile = __DIR__ . '/../Loader/alias_cache.php';
+    protected static string $cacheFile = __DIR__ . '/Loader/alias_cache.php';
     protected static array $classMap = [];
 
     public static function init(): void
@@ -36,7 +36,7 @@ class PluginAliasLoader
                 $relPath = substr($path, strlen(self::$baseDir) + 1, -4); // 去掉 .php
                 $parts = explode(DIRECTORY_SEPARATOR, $relPath);
                 $className = array_pop($parts);
-                $namespace = 'Plugin\\' . implode('\\', $parts);
+                $namespace = 'Gengsz\\Plugins\\Plugin\\' . implode('\\', $parts);
                 $fqcn = $namespace . '\\' . $className;
 
                 // 是否是 trait，简单判断：含有 trait Foo
@@ -92,7 +92,7 @@ class PluginAliasLoader
 
     public static function autoloadNamespace(string $class): bool
     {
-        if (strpos($class, 'Plugin\\') !== 0) return false;
+        if (strpos($class, 'Gengsz\\Plugins\\') !== 0) return false;
 
         $file = self::classToFile($class);
         if ($file && file_exists($file)) {
@@ -105,7 +105,9 @@ class PluginAliasLoader
 
     protected static function classToFile(string $class): ?string
     {
-        $path = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 7)); // 去掉 Plugin\\
-        return self::$baseDir . DIRECTORY_SEPARATOR . $path . '.php';
+        $prefix = 'Gengsz\\Plugins\\';
+        $path = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, strlen($prefix)));
+        return __DIR__ . '/../' . $path . '.php';
+        //return self::$baseDir . DIRECTORY_SEPARATOR . $path . '.php';
     }
 }
