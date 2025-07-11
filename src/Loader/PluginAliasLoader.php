@@ -8,9 +8,9 @@ use \RecursiveDirectoryIterator;
  */
 class PluginAliasLoader
 {
-    protected static string $baseDir = __DIR__ . '/Loader';
+    protected static string $baseDir = __DIR__ . '/';
     #protected static string $cacheFile = __DIR__ . '/../runtime/plugin_alias_map.php';
-    protected static string $cacheFile = __DIR__ . '/Loader/alias_cache.php';
+    protected static string $cacheFile = __DIR__ . '/alias_cache.php';
     protected static array $classMap = [];
 
     public static function init(): void
