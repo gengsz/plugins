@@ -4,7 +4,7 @@ use Gengsz\Plugins\Config\PluginConfig;
 
 trait SplitTableResolver {
 
-    protected static function getModelClass($uid) {
+    public static function getModelClass($uid) {
         $prefix = static::modelPrefix();
         $file   = static::callerDir(). "/{$prefix}00.php";
 
