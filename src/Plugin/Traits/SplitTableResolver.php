@@ -12,7 +12,7 @@ trait SplitTableResolver {
             if (file_exists($file)) {
                 require_once $file;
             } else {
-                throw new \RuntimeException("找不到文件：{$prefix}00");
+                throw new \RuntimeException("The Sub Model File Is Not Found：{$prefix}00");
             }
         }
 
@@ -27,19 +27,18 @@ trait SplitTableResolver {
         if (isset($shardMap[$prefix])) return $shardMap[$prefix];
 
         // 优先使用注入的回调
-        if (is_callable(PluginConfig::$shardLoader)) {
-            return call_user_func(PluginConfig::$shardLoader, $prefix);
+        if (is_callable(PluginConfig::$shardLoader) && $count = (int)call_user_func(PluginConfig::$shardLoader, $prefix)) {
+            if ($count > 1) return $count;
         }
 
         // fallback：扫描 class
-        if (!file_exists($file)) return $shardMap[$prefix] = 1;
-
         $content = file_get_contents($file);
         preg_match_all('/class\\s+' . preg_quote($prefix) . '(\\d{2})\\s+extends/', $content, $matches);
 
-        $max = !empty($matches[1]) ? count($matches[1]) : 1;
+        $count = !empty($matches[1]) ? count($matches[1]) : 0;
+        if ($count < 1) throw new \RuntimeException("The Sub Model File Format Is Incorrect：{$prefix}00");
 
-        return $shardMap[$prefix] = $max;
+        return $shardMap[$prefix] = $count;
     }
 
     protected static function tableHash($uid, $modelPrefix, $file) {
