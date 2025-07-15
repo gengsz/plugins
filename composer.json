@@ -1,0 +1,18 @@
+{
+  "name": "gengsz/plugins",
+  "description": "分表插件包，支持动态模型类解析",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Gengsz\\Plugins\\": "src/"
+    },
+    "files":[
+        "src/bootstrap.php"
+    ]
+  },
+  "require": {
+    "php": ">=7.4"
+  }
+}
+
