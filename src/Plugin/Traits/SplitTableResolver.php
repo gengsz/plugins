@@ -60,7 +60,7 @@ trait SplitTableResolver {
     protected static function fetchDataByGroup(array $tableMap, string $select, string $keyField, int $valid = 1): array {
         $datas = [];
         foreach ($tableMap as $cn => $ids) {
-            $criteria = new CDbCriteria;
+            $criteria = new \CDbCriteria;
             $criteria->select = $select;
             $criteria->addInCondition($keyField, $ids);
             $criteria->compare('valid', $valid);
