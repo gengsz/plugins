@@ -56,4 +56,18 @@ trait SplitTableResolver {
         $instance = $ref->newInstanceWithoutConstructor(); // 不走构造函数
         return $instance->tableName();  // ✅ 调用实例方法
     }
+
+    protected static function fetchDataByGroup(array $tableMap, string $select, string $keyField, int $valid = 1): array {
+        $datas = [];
+        foreach ($tableMap as $cn => $ids) {
+            $criteria = new CDbCriteria;
+            $criteria->select = $select;
+            $criteria->addInCondition($keyField, $ids);
+            $criteria->compare('valid', $valid);
+            $ars = self::model($cn)->findAll($criteria);
+            $as  = _ars_to_arrs($ars);
+            $datas = array_merge($datas, $as);
+        }
+        return $datas;
+    }
 }
