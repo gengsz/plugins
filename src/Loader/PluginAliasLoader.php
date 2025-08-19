@@ -22,7 +22,7 @@ class PluginAliasLoader
 
         self::preloadTraitFilesOnly();
 
-        spl_autoload_register([self::class, 'autoloadAlias'], true, false);
+        spl_autoload_register([self::class, 'autoloadAlias'], true, true);
         spl_autoload_register([self::class, 'autoloadNamespace'], true, false);
     }
 
@@ -37,7 +37,11 @@ class PluginAliasLoader
                 $relPath = substr($path, strlen(self::$baseDir)+1, -4); // 去掉 .php
                 $parts = explode(DIRECTORY_SEPARATOR, $relPath);
                 $className = array_pop($parts);
-                $namespace = 'Gengsz\\Plugins\\Plugin\\' . implode('\\', $parts);
+                if ($parts) {
+                    $namespace = 'Gengsz\\Plugins\\Plugin\\' . implode('\\', $parts);
+                } else {
+                    $namespace = 'Gengsz\\Plugins\\Plugin';
+                }
                 $fqcn = $namespace . '\\' . $className;
 
                 // 是否是 trait，简单判断：含有 trait Foo

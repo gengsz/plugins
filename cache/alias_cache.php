@@ -1,7 +1,7 @@
 <?php return array (
   'BitSet' => 
   array (
-    'fqcn' => 'Gengsz\\Plugins\\Plugin\\\\BitSet',
+    'fqcn' => 'Gengsz\\Plugins\\Plugin\\BitSet',
     'type' => 'class',
   ),
   'SplitTableResolver' => 
