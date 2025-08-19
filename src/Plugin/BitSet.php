@@ -28,7 +28,7 @@ class BitSet {
         return bin2hex($this->bitstr);
     }
 
-    public function set(int $index): void {
+    public function set(int $index): self {
         $byte = intdiv($index, 8);
         $bit  = $index % 8;
 
@@ -41,9 +41,10 @@ class BitSet {
         }
 
         $this->bitstr[$byte] = ($this->bitstr[$byte] ?? "\x00") | chr(1 << $bit);
+        return $this;
     }
 
-    public function clear(int $index): void {
+    public function clear(int $index): self {
         $byte = intdiv($index, 8);
         $bit  = $index % 8;
 
@@ -51,11 +52,12 @@ class BitSet {
             if ($this->autoExpand) {
                 $this->expandTo($byte + 1);
             } else {
-                return; // 不扩展时，超范围清空就忽略
+                return $this; // 不扩展时，超范围清空就忽略
             }
         }
 
         $this->bitstr[$byte] = $this->bitstr[$byte] & ~chr(1 << $bit);
+        return $this;
     }
 
     public function has(int $index): bool {
