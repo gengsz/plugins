@@ -85,7 +85,8 @@ class BitSet {
         if ($label) echo "== $label ==\n";
         echo "已点亮索引: " . implode(', ', $this->getAll()) . PHP_EOL;
         echo "Hex编码:    " . $this->toHex() . PHP_EOL;
-        echo "长度:       " . strlen($this->bitstr) . " 字节" . PHP_EOL;
+        echo "Hex长度:    " . strlen($this->toHex()). PHP_EOL;
+        echo "Bin 长度:   " . strlen($this->bitstr) . " 字节" . PHP_EOL;
     }
 
     /** 内部扩展字节串到指定长度（字节数） */

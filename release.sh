@@ -16,6 +16,12 @@ NEXT_VER="v$major.$minor.$((patch + 1))"
 # 用户传参优先
 VERSION=${1:-$NEXT_VER}
 
+read -p "是否继续打包？[y/N]: " confirm
+if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+    echo "❌ 操作已取消"
+    exit
+fi
+
 echo "🚀 正在发布版本: $VERSION"
 
 # 构建 alias 缓存
