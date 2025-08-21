@@ -3,7 +3,7 @@
 # ✅ 清理非 vX.Y.Z 格式的旧 tag（如无 v 前缀的）
 # 获取本地非 v 开头的 tag
 #BAD_TAGS=$(git tag | grep -v '^v')
-BAD_TAGS=$(git tag)
+BAD_TAGS=$(git tag| grep -v '^v')
 
 if [ -z "$BAD_TAGS" ]; then
   echo "✅ 没有非 v 开头的旧 tag，无需清理"

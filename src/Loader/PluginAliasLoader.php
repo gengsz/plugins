@@ -2,6 +2,7 @@
 namespace Gengsz\Plugins\Loader;
 use \RecursiveIteratorIterator;
 use \RecursiveDirectoryIterator;
+use Gengsz\Plugins\Config\PluginConfig;
 
 /**
  * 高级插件别名加载器：Trait 预加载 + Class 懒加载
@@ -22,8 +23,9 @@ class PluginAliasLoader
 
         self::preloadTraitFilesOnly();
 
+        spl_autoload_register([self::class, 'autoloadSubModel'], true, true);
         spl_autoload_register([self::class, 'autoloadAlias'], true, true);
-        spl_autoload_register([self::class, 'autoloadNamespace'], true, false);
+        spl_autoload_register([self::class, 'autoloadNamespace'], true, true);
     }
 
     public static function buildAliasCache(): void
@@ -105,6 +107,24 @@ class PluginAliasLoader
             return true;
         }
 
+        return false;
+    }
+    public static function autoloadSubModel(string $class): bool
+    {
+        if (preg_match('/^([A-Za-z_]\w*?)(\d{2})$/', $class, $m)) {
+            $prefix = $m[1]; // 类名前缀，例如 KPTaskVideo
+            $num    = $m[2]; // 数字部分，例如 74
+
+            // 如果有对应的基类（前缀），就继承它；否则继承 stdClass
+            $parent = class_exists($prefix) ? $prefix : 'stdClass';
+
+            eval("class $class extends $parent {
+                public function tableName() {
+                    return '$class';
+                }
+            }");
+            return true;
+        }
         return false;
     }
 
