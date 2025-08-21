@@ -5,7 +5,7 @@ class BitSet {
     private string $bitstr;
     private bool $autoExpand;   // 是否允许自动扩展字节数组
 
-    public function __construct(int $size = 128, bool $autoExpand = true) {
+    public function __construct(int $size = 128, bool $autoExpand = false) {
         $this->bitstr = str_repeat("\x00", (int)ceil($size / 8));
         $this->autoExpand = $autoExpand;
     }
